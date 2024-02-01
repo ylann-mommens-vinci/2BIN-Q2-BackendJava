@@ -1,0 +1,31 @@
+@baseUrl = http://localhost:8080
+
+###Create Text
+POST {{baseUrl}}/texts
+Content-Type: application/json
+
+{
+  "content" : "97",
+  "level" : "easy"
+}
+
+###Get all Texts
+GET {{baseUrl}}/texts
+
+###Get all Texts by Level
+GET {{baseUrl}}/texts?level=medium
+
+###Get Text by Id
+GET {{baseUrl}}/texts/1
+
+###Delete Text by Id
+DELETE {{baseUrl}}/texts/2
+
+###Update Text
+PUT {{baseUrl}}/texts/1
+Content-Type: application/json
+
+{
+  "content" : "contenu du texte 1",
+  "level" : "hard"
+}
