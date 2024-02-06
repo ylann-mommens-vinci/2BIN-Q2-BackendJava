@@ -1,0 +1,73 @@
+@baseUrl = http://localhost:8080
+### Read all pages
+GET {{baseUrl}}/pages
+
+### Login with default user credentials
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "login":"james",
+  "password":"password"
+}
+
+> {%
+    client.global.set("jamesToken", response.body.token);
+%}
+
+### View all pages with john
+GET {{baseUrl}}/pages
+Authorization: {{jamesToken}}
+
+### Add a page with wrong publication status (send back an error)
+POST {{baseUrl}}/pages
+Content-Type: application/json
+Authorization: {{jamesToken}}
+
+{
+  "title":"Page 01",
+  "content": "<h1>Home Page<h1><p>Hi!</p>",
+  "url": "/home",
+  "statusPublication": "115000000"
+}
+
+### Add a page hidden
+POST {{baseUrl}}/pages
+Content-Type: application/json
+Authorization: {{jamesToken}}
+
+{
+  "title":"Page 01",
+  "content": "<h1>Home Page<h1><p>Hi!</p>",
+  "url": "/home",
+  "statusPublication": "hidden"
+}
+
+### Add a page published
+POST {{baseUrl}}/pages
+Content-Type: application/json
+Authorization: {{jamesToken}}
+
+{
+  "title":"Page 01",
+  "content": "<h1>Home Page<h1><p>Hi!</p>",
+  "url": "/home",
+  "statusPublication": "published"
+}
+
+### Delete a page
+DELETE {{baseUrl}}/pages/5
+Authorization: {{jamesToken}}
+
+### Update a resource which james is not the author
+### Delete a page
+PUT {{baseUrl}}/pages/4
+Content-Type: application/json
+Authorization: {{jamesToken}}
+
+{
+  "title": "Former John's page : now it's James' page !",
+  "content": "....",
+  "url": "/john",
+  "statusPublication": "hidden"
+}
